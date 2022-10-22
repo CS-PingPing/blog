@@ -4,9 +4,21 @@ This website is built using [Docusaurus 2](https://docusaurus.io/), a modern sta
 
 ### Installation
 
+First of all, you need to install both [Node.js](https://nodejs.org/en/) and [Yarn](https://classic.yarnpkg.com/lang/en/).
+
+After of it, check yarn is successfully installed using below command. Input in the command prompt:
+
+```
+yarn --version
+```
+
+Move to the directory of this repository in the command prompt and then input the command:
+
 ```
 $ yarn
 ```
+
+Ok, let's started to write post.
 
 ### Local Development
 
