@@ -76,7 +76,7 @@ namespace Csharp_Practice.ObserverPattern
 
 ### WeatherData.cs
 
-```c#
+```C#
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -133,7 +133,7 @@ namespace Csharp_Practice.ObserverPattern
 
 ### WeatherStation.cs
 
-```c#
+```C#
 using System;
 using System.Collections.Generic;
 using System.Linq;

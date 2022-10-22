@@ -30,7 +30,7 @@ tags: [Composite Pattern, Design Pattern]
 
 ## 코드
 
-```c#
+```C#
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

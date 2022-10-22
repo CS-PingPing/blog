@@ -7,7 +7,7 @@ tags: [Strategy Pattern, Design Pattern]
 
 ## Strategy Pattern
 
-```c#
+```C#
 // Author: @DevSlem
 
 // Main()
