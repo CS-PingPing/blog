@@ -7,7 +7,7 @@ tags: [Observer Pattern, Design Pattern]
 
 ### CurrentConditionDisplay.cs
 
-```c#
+```typescript
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +48,7 @@ namespace Csharp_Practice.ObserverPattern
 
 ### Interface.cs
 
-```c#
+```typescript
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,7 +76,7 @@ namespace Csharp_Practice.ObserverPattern
 
 ### WeatherData.cs
 
-```C#
+```typescript
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -133,7 +133,7 @@ namespace Csharp_Practice.ObserverPattern
 
 ### WeatherStation.cs
 
-```C#
+```typescript
 using System;
 using System.Collections.Generic;
 using System.Linq;
