@@ -28,6 +28,9 @@ const sidebars = {
     },
   ],
    */
+  // testSidebar: [
+  //   'test',
+  // ],
 };
 
 module.exports = sidebars;

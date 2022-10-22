@@ -5,10 +5,10 @@ halang:
   image_url: https://avatars.githubusercontent.com/u/64428916?v=4
 
 DevSlem:
-  name: Yangshun Tay
-  title: Front End Engineer @ Facebook
-  url: https://github.com/yangshun
-  image_url: https://github.com/yangshun.png
+  name: DevSlem
+  title: Machine Learning, Reinforcement Learning Developer
+  url: https://github.com/DevSlem
+  # image_url: https://github.com/yangshun.png
 
 slorber:
   name: Sébastien Lorber
