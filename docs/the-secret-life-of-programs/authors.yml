@@ -1,0 +1,17 @@
+halang:
+  name: 이하령
+  title: Front End Developer
+  url: https://github.com/haryung-lee
+  image_url: https://avatars.githubusercontent.com/u/64428916?v=4
+
+DevSlem:
+  name: DevSlem
+  title: Machine Learning, Reinforcement Learning Developer
+  url: https://github.com/DevSlem
+  # image_url: https://github.com/yangshun.png
+
+slorber:
+  name: Sébastien Lorber
+  title: Docusaurus maintainer
+  url: https://sebastienlorber.com
+  image_url: https://github.com/slorber.png
