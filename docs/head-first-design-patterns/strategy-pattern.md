@@ -7,7 +7,7 @@ tags: [Strategy Pattern, Design Pattern]
 
 ## Strategy Pattern
 
-```typescript
+```csharp
 // Author: @DevSlem
 
 // Main()
