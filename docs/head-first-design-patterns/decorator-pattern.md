@@ -7,7 +7,7 @@ tags: [Decorator Pattern, Design Pattern]
 
 ## Decorator Pattern
 
-```typescript
+```csharp
 // Main
 Beverage beverage = new Espresso();
 Console.WriteLine($"{beverage.GetDescription()} ${beverage.Cost()}");
