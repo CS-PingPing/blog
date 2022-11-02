@@ -40,9 +40,9 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
-            remarkPlugins: [math],
-            rehypePlugins: [katex],
-            showLastUpdateAuthor: true,
+          remarkPlugins: [math],
+          rehypePlugins: [katex],
+          showLastUpdateAuthor: true,
         },
         blog: {
           showReadingTime: true,
@@ -80,13 +80,13 @@ const config = {
           src: "img/logo.png",
         },
         items: [
-          // { to: "/blog", label: "Blog", position: "left" },
           {
             type: "doc",
             docId: "intro",
             position: "left",
             label: "Book",
           },
+          { to: "/blog", label: "Blog", position: "left" },
           {
             href: "https://github.com/CS-PingPing/blog",
             label: "GitHub",
@@ -142,7 +142,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        additionalLanguages: ['csharp', 'rust'],
+        additionalLanguages: ["csharp", "rust"],
       },
     }),
 };
