@@ -345,6 +345,173 @@ fn calculate_length(s: String) -> (String, usize) {
 
 ## 참조자와 빌림
 
+러스트는 변수의 소유권을 넘기는 대신 객체에 대한 참조를 인자로 사용하는 참조자를 지원한다. 함수 매개변수로 참조자를 만드는 것을 빌림 (borrowing)이라고 한다. 참조자를 선언하는 키워드는 `&`이다. 참조자의 특징은 아래와 같다.
+
+* 참조자는 소유권을 가지지 않음 - 스코프 밖으로 벗어나도 메모리를 반납하지 않음
+* 변수가 기본적으로 불변인 것처럼 참조자도 불변임
+
+참조에 대한 샘플 코드:
+
+```rust
+fn main() {
+    let s1 = String::from("hello");
+
+    let len = calculate_length(&s1);
+
+    println!("The length of '{}' is {}.", s1, len);
+}
+
+fn calculate_length(s: &String) -> usize { // s는 String의 참조자입니다
+    s.len()
+} // 여기서 s는 스코프 밖으로 벗어났습니다. 하지만 가리키고 있는 값에 대한 소유권이 없기
+  // 때문에, 아무런 일도 발생하지 않습니다.
+```
+
+`calculate_length()` 함수의 매개변수 `s`는 `String` 타입이 아닌 `&String` 참조자 타입이다.
+
+`String s1`을 가리키고 있는 `&String s`에 대한 그림:
+
+![](https://rinthel.github.io/rust-lang-book-ko/img/trpl04-05.svg)
+
+## 가변 참조자
+
+가변 참조자를 사용하면 변수를 변경 가능하다. 가변 참조자 키워드는 `&mut`이다.
+
+```rust
+fn main() {
+    let mut s = String::from("hello");
+
+    change(&mut s);
+}
+
+fn change(some_string: &mut String) {
+    some_string.push_str(", world");
+}
+```
+
+### 가변 참조자는 스코프 내에 반드시 1개만!
+
+가변 참조자를 사용할 때 주의 사항이 있다. **가변 참조자는 스코프 내에 반드시 1개만 존재해야한다!!!** 따라서 아래 코드는 에러가 발생한다:
+
+```rust
+let mut s = String::from("hello");
+
+let r1 = &mut s;
+let r2 = &mut s;
+```
+
+복수의 가변 참조자에 대한 컴파일 에러 메세지:
+
+```
+error[E0499]: cannot borrow `s` as mutable more than once at a time
+ --> borrow_twice.rs:5:19
+  |
+4 |     let r1 = &mut s;
+  |                   - first mutable borrow occurs here
+5 |     let r2 = &mut s;
+  |                   ^ second mutable borrow occurs here
+6 | }
+  | - first borrow ends here
+```
+
+이러한 제한 조건은 **데이터 레이스 (data race)를 방지**할 수 있도록 해준다.
+
+데이터 레이스란:
+
+1. 두 개 이상의 포인터가 동시에 같은 데이터에 접근
+2. 적어도 하나의 포인터는 데이터를 씀
+3. 데이터에 접근하는데 동기화를 하는 어떠한 메커니즘도 없음
+
+이는 동시성 프로그래밍에서 자주 발생하는 큰 문제이다. 데이터 레이스는 정의되지 않은 동작을 일으키고 추적도 어렵다. 러스트는 이 문제를 컴파일 시점에 차단한다!
+
+아래 코드는 비슷하지만 유효한 동작이다:
+
+```rust
+let mut s = String::from("hello");
+
+{
+    let r1 = &mut s;
+
+} // 여기서 r1은 스코프 밖으로 벗어났으므로, 우리는 아무 문제 없이 새로운 참조자를 만들 수 있습니다.
+
+let r2 = &mut s;
+```
+
+### 불변 참조자가 있을 때는 가변 참조자는 불가능!
+
+여러 개의 불변 참조자는 가능하다. 그러나 불변 참조자가 단 하나라도 있을 때는 가변 참조자를 만들 수 없다. 이 역시 러스트 컴파일러가 제한한다. 그 이유는 불변 참조자의 사용자는 사용 중인 동안 값이 바뀌리라 예상하지 않기 때문이다. 불변 참조자를 사용하고 있는데 값이 변한다면 이상할 것이다.
+
+불변 참조자와 가변 참조자를 함께 만드려는 시도:
+
+```rust
+let mut s = String::from("hello");
+
+let r1 = &s; // 문제 없음
+let r2 = &s; // 문제 없음
+let r3 = &mut s; // 큰 문제
+```
+
+불변 참조자와 가변 참조라를 함께 만들었을 때의 컴파일 에러 메세지:
+
+```
+error[E0502]: cannot borrow `s` as mutable because it is also borrowed as
+immutable
+ --> borrow_thrice.rs:6:19
+  |
+4 |     let r1 = &s; // 문제 없음
+  |               - immutable borrow occurs here
+5 |     let r2 = &s; // 문제 없음
+6 |     let r3 = &mut s; // 큰 문제
+  |                   ^ mutable borrow occurs here
+7 | }
+  | - immutable borrow ends here
+```
+
+## 댕글링 참조자
+
+댕글링 포인터 (dangling pointer)란 어떤 메모리를 가리키는 포인터를 보존하는 동안, 그 메모리를 해제함으로써 다른 개체가 사용할 지도 모를 메모리를 참조하고 있는 포인터이다. 러스트에서는 컴파일러가 댕글링 참조자가 되지 않도록 보장한다!
+
+댕글링 포인터를 만들려는 시도:
+
+```rust
+fn main() {
+    let reference_to_nothing = dangle();
+}
+
+fn dangle() -> &String { // dangle은 String의 참조자를 반환합니다
+
+    let s = String::from("hello"); // s는 새로운 String입니다
+
+    &s // 우리는 String s의 참조자를 반환합니다.
+} // 여기서 s는 스코프를 벗어나고 버려집니다. 이것의 메모리는 사라집니다.
+  // 위험하군요!
+```
+
+댕글링 참조자에 대한 컴파일 에러 메세지:
+
+```
+error[E0106]: missing lifetime specifier
+ --> dangle.rs:5:16
+  |
+5 | fn dangle() -> &String {
+  |                ^^^^^^^
+  |
+  = help: this function's return type contains a borrowed value, but there is no
+    value for it to be borrowed from
+  = help: consider giving it a 'static lifetime
+
+error: aborting due to previous error
+```
+
+## 참조자의 규칙
+
+1. 어떠한 경우이든 간에, 둘 중 하나만 가능
+      * 하나의 가변 참조자
+      * 임의 개수의 불변 참조자들
+2. 참조자는 항상 유효해야함
+
+## 슬라이스
+
 곧 추가될 예정...
 
 ## References
