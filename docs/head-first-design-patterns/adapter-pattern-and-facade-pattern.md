@@ -42,6 +42,106 @@ Adapter Pattern은 이미 제공되어 있는 것과 필요한 것 사이의 차
 4. Adaptee
    이미 준비되어 있는 메소드를 가지고 있는 역할입니다.
 
+## Adapter Pattern Code
+
+```c#
+using System;
+
+public interface Duck
+{
+    void quack();
+    void fly();
+}
+
+public class MallarDuck : Duck
+{
+    public void quack()
+    {
+        Console.WriteLine("꽥");
+    }
+
+    public void fly()
+    {
+        Console.WriteLine("날고 있어요");
+    }
+}
+
+public interface Turkey
+{
+    void gobble();
+    void fly();
+}
+
+public class WildTurkey : Turkey
+{
+    public void gobble()
+    {
+        Console.WriteLine("글골");
+    }
+
+    public void fly()
+    {
+        Console.WriteLine("짧은 거리를 날고 있어요!");
+    }
+}
+
+/// <summary>
+/// 우리가 필요한건 Duck
+/// Turkey 어댑터를 이용해 우리가 원하는 Duck 이용하기
+/// </summary>
+
+public class TurkeyAdapter : Duck
+{
+    Turkey turkey;
+
+    public TurkeyAdapter(Turkey turkey)
+    {
+        this.turkey = turkey;
+    }
+
+    public void quack()
+    {
+        turkey.gobble();
+    }
+
+    public void fly()
+    {
+        for(int i = 0; i < 5; i++)
+        {
+            turkey.fly();
+        }
+    }
+}
+
+public class DuckTestDrive
+{
+    static void Main(String[] args)
+    {
+        Duck duck = new MallarDuck();
+        Turkey turkey = new WildTurkey();
+
+        // turkey를 adapter로 감싸서 duck 객체처럼 보이도록 만듦
+        Duck turkeyAdapter = new TurkeyAdapter(turkey);
+
+        Console.WriteLine("칠면조가 말하길");
+        turkey.gobble();
+        turkey.fly();
+
+        Console.WriteLine("오리가 말하길");
+        testDuck(duck);
+
+        Console.WriteLine("칠면조 어댑터가 말하길");
+        testDuck(turkeyAdapter); // 오리 대신 칠면조 넘김
+    }
+
+    static void testDuck(Duck duck)
+    {
+        duck.quack();
+        duck.fly();
+    }
+}
+```
+
 ## Facade Pattern?
 
 이번엔 비슷하지만 조금 다른 패턴을 배워봅시다. (참고로 facade란 겉모양이나 외관 이라는 뜻입니다)
@@ -56,6 +156,84 @@ Adapter Pattern은 이미 제공되어 있는 것과 필요한 것 사이의 차
 ![퍼사드패턴](https://velog.velcdn.com/images/lhr4884/post/b5ba9cdf-4ce6-4b10-afbe-4c15f74a47b2/image.png)
 이로써 클라이언트는 서브시스템이 아닌 홈시어터 퍼사드에 있는 메소드를 호출할 수 있습니다.
 사용자는 watchMovie()만 호출하면 조명, 스트리밍 플레이어, 프로젝터 등이 알아서 준비됩니다.
+
+## Facade Pattern code
+
+```c#
+using System;
+
+public class HomeTheaterFacade
+{
+    Amplifier amp;
+    Tuner tuner;
+    StreamingPlayer player;
+    Projector projector;
+    TheaterLights llights;
+    Screen screen;
+    PopcornPopper popper;
+
+    public HomeTheaterFacade(Amplifier amp, Tuner tuner,
+                        StreamingPlayer player,
+                        Projector projector,
+                        Screen screen,
+                        TheaterLights lights,
+                        PopcornPopper popper)
+    {
+        this.amp = amp;
+        this.tuner = tuner;
+        this.player = player;
+        this.projector = projector;
+        this.screen = screen;
+        this.llights = lights;
+        this.popper = popper;
+    }
+
+    public void watchMovie(String movie)
+    {
+        Console.WriteLine("영화 볼 준비 중");
+        popper.on();
+        popper.pop();
+        llights.dim(10);
+        screen.down();
+        projector.on();
+        projector.wideScreenMode();
+        amp.on();
+        amp.setStreamingPlayer(player);
+        amp.setVolume(5);
+        player.on();
+        player.play(movie);
+    }
+
+    public void endMovie()
+    {
+        Console.WriteLine("홈시티어터를 끄는 중");
+        popper.off();
+        llights.on();
+        screen.up();
+        projector.off();
+        amp.off();
+        player.stop();
+        player.off();
+    }
+
+    public class HomeTheaterTestDrive
+    {
+
+        static void Main(String[] args)
+        {
+            // 구성 요소 초기화
+
+            HomeTheaterFacade homeTheater =
+                new HomeTheaterFacade(amp, tuner, player,
+                projector, screen, lights, popper);
+
+            homeTheater.watchMovie("인디아나 존: 레이더스");
+            homeTheater.endMovie();
+        }
+    }
+}
+
+```
 
 ## 결론
 
