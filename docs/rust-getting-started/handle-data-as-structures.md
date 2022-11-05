@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 4
 title: "[Rust] 연관된 데이터들을 구조체로 다루기"
 authors: halang
 tags: [rust, language]
