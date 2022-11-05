@@ -42,7 +42,7 @@ let mut user1 = User {
 user1.email = String::from("b@example.com");
 ```
 
-- 인스턴스는 반드시 <span style="color:violet">변경 가능(mutable)</span> 해야한다.
+- 인스턴스는 반드시 **변경 가능(mutable)** 해야한다.
 - Rust에서는 특정 필드만 변경할 수 있도록 허용하지 않는다. 새 인스턴스 구조체를 표현식으로 생성하여 새 인스턴스를 바로 반환할 수 있다.
 
 ### 변수명이 필드명과 같을 때 간단하게 필드 초기화하기
