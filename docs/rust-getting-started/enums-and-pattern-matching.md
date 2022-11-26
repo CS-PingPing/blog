@@ -163,7 +163,7 @@ let some_string = Some("a string");
 let absent_number: Option<i32> = None;
 ```
 
-주의해야 할 점은 Some 이 아닌 None 을 사용한다면, Option<T> 이 어떤 타입을 가질지 러스트에게 알려줄 필요가 있다.  
+주의해야 할 점은 Some 이 아닌 None 을 사용한다면, `Option<T>` 이 어떤 타입을 가질지 러스트에게 알려줄 필요가 있다.  
 컴파일러는 None 만 보고는 Some variant 가 어떤 타입인지 추론할 수 없다.
 
 `Some`값을 얻게 되면, 값이 있다는 것과 `Some`이 갖고 있는 값에 대해 알 수 있다.  
@@ -269,7 +269,7 @@ fn value_in_cents(coin: Coin) -> u32 {
 
 만일 우리가 `value_in_cents(Coin::Quarter(UsState::Alaska))`를 호출했다면, `coin`은 `Coin::Quarter(UsState::Alaska)`가 될 것이다. 각각의 매치 갈래들과 이 값을 비교할 때, `Coin::Quarter(state)`에 도달할 때까지 아무것도 매치되지 않는다. 이 시점에서, `state`에 대한 바인딩은 값 `UsState::Alaska`가 될 것이다. 그러면 이 바인딩을 `println!` 표현식 내에서 사용할 수 있고, 따라서 `Quarter`에 대한 `Coin` 열거형 variant로부터 내부의 주에 대한 값을 얻었다.
 
-### Option<T>를 이용하년 매칭
+### `Option<T>`를 이용하년 매칭
 
 `match`를 이용하여 `Option<T>`또한 다룰 수 있다.
 
